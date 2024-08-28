@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<robot name="basic_robot">
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+
+  <!-- Base Link -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.6 0.4 0.1"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.6 0.4 0.1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="10"/>
+      <inertia ixx="0.13" ixy="0" ixz="0" iyy="0.21" iyz="0" izz="0.13"/>
+    </inertial>
+  </link>
+
+  <!-- Wheels -->
+  <link name="wheel_front_left">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.00254" ixy="0" ixz="0" iyy="0.00254" iyz="0" izz="0.00508"/>
+    </inertial>
+  </link>
+
+  <link name="wheel_front_right">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.00254" ixy="0" ixz="0" iyy="0.00254" iyz="0" izz="0.00508"/>
+    </inertial>
+  </link>
+
+  <link name="wheel_rear_left">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.00254" ixy="0" ixz="0" iyy="0.00254" iyz="0" izz="0.00508"/>
+    </inertial>
+  </link>
+
+  <link name="wheel_rear_right">
+    <visual>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder length="0.05" radius="0.1016"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1"/>
+      <inertia ixx="0.00254" ixy="0" ixz="0" iyy="0.00254" iyz="0" izz="0.00508"/>
+    </inertial>
+  </link>
+
+  <!-- Joints -->
+  <joint name="wheel_front_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_front_left"/>
+    <origin xyz="0.25 0.225 -0.05" rpy="-1.5707 0 0"/>
+  </joint>
+
+  <joint name="wheel_front_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_front_right"/>
+    <origin xyz="0.25 -0.225 -0.05" rpy="-1.5707 0 0"/>
+  </joint>
+
+  <joint name="wheel_rear_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_rear_left"/>
+    <origin xyz="-0.25 0.225 -0.05" rpy="-1.5707 0 0"/>
+  </joint>
+
+  <joint name="wheel_rear_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wheel_rear_right"/>
+    <origin xyz="-0.25 -0.225 -0.05" rpy="-1.5707 0 0"/>
+  </joint>
+
+  <gazebo reference="wheel_front_left">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>500000.0</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+  </gazebo>
+
+  <gazebo reference="wheel_front_right">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>500000.0</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+  </gazebo>
+  
+  <gazebo reference="wheel_rear_left">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>500000.0</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+  </gazebo>
+  
+  <gazebo reference="wheel_rear_right">
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <kp>500000.0</kp>
+    <kd>10.0</kd>
+    <minDepth>0.001</minDepth>
+    <maxVel>0.1</maxVel>
+  </gazebo>
+  
+  <!-- Planar Move Plugin -->
+  <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>20.0</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <publishTf>true</publishTf>
+      <publishOdomTF>true</publishOdomTF>
+      <robotNamespace>/</robotNamespace>
+      <updateRate>100.0</updateRate>
+      <maxVelocity>10.0</maxVelocity>
+      <maxAcceleration>5.0</maxAcceleration>
+    </plugin>
+  </gazebo>
+</robot>
